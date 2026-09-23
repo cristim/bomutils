@@ -268,7 +268,7 @@ int main(int argc, char *argv[]) {
 
       DEBUG(2, "BOMVar 0x" << hex << ntohl(var->index) << ' ' << name << ':');
 
-      if (strstr(name.c_str(),"Paths") == 0) {
+      if (name == "Paths") {
         BOMPaths *paths = (BOMPaths *)lookup(tree->child);
 
         typedef map<uint32_t, string> filenames_t;
@@ -333,7 +333,7 @@ int main(int argc, char *argv[]) {
             }
             }
             if (pathsOnly) {
-              cout << filename << '\n';
+              cout << filename;
             } else {
               // Print requested parameters
               bool printed = true;
