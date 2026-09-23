@@ -550,7 +550,13 @@ int main( int argc, char * argv[] ) {
     }
   }
 
-  if ( (argc - optind) != 2 ) {
+  // Homebrew puts `--` between its file list and output BOM. On Darwin,
+  // getopt stops at the first non-option and leaves that separator intact.
+  int targetIndex = optind + 1;
+  if ((argc - optind) == 3 && string(argv[targetIndex]) == "--") {
+    ++targetIndex;
+  }
+  if (argc != targetIndex + 1) {
     usage();
     return 1;
   }
@@ -565,7 +571,7 @@ int main( int argc, char * argv[] ) {
       cerr << endl << "The -u and -g options cannot be used with -i" << endl;
       return 1;
     }
-    write_bom( file_list, string( argv[optind + 1] ), simplified );
+    write_bom( file_list, string( argv[targetIndex] ), simplified );
   } else {
     string buffer;
     {
@@ -583,7 +589,7 @@ int main( int argc, char * argv[] ) {
       buffer = paths.str();
     }
     stringstream file_list( buffer );
-    write_bom( file_list, string( argv[optind + 1] ), simplified );
+    write_bom( file_list, string( argv[targetIndex] ), simplified );
   }
   return 0;
 }
