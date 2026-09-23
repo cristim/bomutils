@@ -11,6 +11,7 @@ if(DARLING)
             src/printnode.cpp
             src/crc32.cpp)
         target_compile_features(${tool} PRIVATE cxx_std_11)
+        target_link_libraries(${tool} cxx)
         install(TARGETS ${tool} DESTINATION libexec/darling/usr/bin)
     endforeach()
 endif()
